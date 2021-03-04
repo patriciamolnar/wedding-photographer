@@ -1,0 +1,977 @@
+/*
+TABLE OF CONTENTS
+1. Mobile
+    1.1 General
+    1.2 Navigation and Header
+    1.3 Banner Image and Page Title
+    1.4 Main Section
+        1.4.1 Intro
+        1.4.2 Portfolio
+        1.4.3 Services
+        1.4.4 About
+        1.4.5 Testimonials
+        1.4.6 Contact
+    1.5 Footer
+2. Intersection Observers
+3. Focus Rules
+4. Hover rules
+5. Tablet (600px)
+6. Desktop (850px)
+    6.1 Header, Nav and Banner
+    6.2 Main
+7. Desktop (1024px)
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600&family=Petit+Formal+Script&display=swap');
+
+:root {
+    --italic: 'Petit Formal Script', cursive;
+    --font: 'Roboto', sans-serif;
+    --ivory: #F9F7F4;  
+    --one: #ee4466;
+    --two: #dc143c;
+    --contrast: #4614db;
+    --shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    --s2: 0 10px 20px rgba(0,0,0,0.19);
+}
+
+/* 
+1. Mobile
+1.1 General
+*/
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: var(--font);
+}
+
+/* Flex for sticky footer */
+body {
+    margin: 0; 
+    padding: 0; 
+    display: flex;
+    flex-direction: column;
+    line-height: 1.5;
+    background-color: var(--ivory);
+}
+
+h2 {
+    font-family: var(--italic);
+}
+
+a {
+    color: #000; 
+    text-decoration: none; 
+    border-bottom: 2px solid var(--one);
+}
+
+a, input[type="submit"] {
+    transition: all 0.2s linear;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
+/* 1.2 Navigation and Header */ 
+
+header {
+    position: relative;  
+    z-index: 100; 
+    margin-bottom: -40px;
+}
+
+header span {
+    display: none; 
+}
+
+.navigation {
+    text-align: left; 
+}
+
+.burger {
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 5px;
+    z-index: 100; 
+    position: relative; 
+}
+  
+.bar1, .bar2, .bar3 {
+    width: 25px;
+    height: 2px;
+    background-color: #000;
+    margin: 6px 0;
+    transition: 0.4s;
+    pointer-events: none;
+}
+  
+.change .bar1 {
+    -webkit-transform: rotate(-45deg) translate(-6px, 6px);
+    transform: rotate(-45deg) translate(-6px, 6px);
+}
+  
+.change .bar2 {
+    opacity: 0;
+}
+
+.change .bar3 {
+    -webkit-transform: rotate(45deg) translate(-6px, -6px);
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+/* 
+If window gets resized from desktop to mobile, there should be 
+no transition for the navigation, it should immediately disappear
+*/
+.notransition {
+    transition: none !important;
+}
+
+#nav {
+    width: 100%; 
+    height: 100vh;
+    position: absolute;   
+    left: 0;
+    top: 0;
+    padding: 0; 
+    margin: 0; 
+    z-index: 1;
+    overflow: hidden;
+    transform: scaleX(0);
+    background-color: #fff;
+    text-align: center; 
+    transition: all .5s ease-in;
+}
+
+#nav.show {
+    opacity: 1; 
+    transform: scaleX(1);  
+    transition: all .5s ease-in;
+}
+
+#nav ul {
+    margin-top: 4rem;
+    list-style-type: none;
+    padding-left: 0;
+    width: 100%; 
+}
+
+#nav li {
+    position: relative; 
+    bottom: -300px; 
+    opacity: 0; 
+}
+
+#nav.show li {
+    animation-name: slider;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+#nav a {
+    display: inline-block; 
+    padding: 1rem 0; 
+    color: #000;
+    width: 100%; 
+    height: 100%;  
+    border-bottom: none; 
+    text-decoration: none; 
+    font-size: 1.5rem; 
+    font-family: var(--italic);
+}
+
+#nav a:focus {
+    outline-offset: -2px;
+}
+
+@keyframes slider {
+    0% {
+        bottom: -300px; 
+        opacity: 0; 
+    }
+    100% {
+        bottom: 0px;
+        opacity: 1; 
+    }
+}
+
+
+/* 1.3 Banner Image and Page Title */
+.welcome {
+    position: relative; 
+    height: 100vh; 
+    width: 100%;
+}
+
+.welcome-image {
+    width: 100%; 
+    height: 100%; 
+    z-index: -1; 
+    border-radius: 33% 33% 68% 17% / 0% 0% 15% 5%; 
+    background-color: var(--ivory);
+    background-image: url('img/wedding-1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 70% 50%;
+    box-shadow: var(--s2);
+    opacity: 0.85;
+}
+
+.welcome-copy {
+    width: 100%;
+    position: absolute; 
+    top: 10%;
+    text-align: center; 
+}
+
+.welcome-copy h1 {
+    font-size: calc(1rem + 5vw);
+    margin: 0 2rem 0.5rem;
+    font-family: var(--italic); 
+    padding: 0;
+    text-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.welcome-copy p {
+    font-size: calc(1rem + 2vw);
+    margin: 0 0 1rem; 
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+.welcome-button {
+    display: inline-block;
+    text-decoration: none; 
+    background-color: var(--one); 
+    padding: 0.5rem 2.5rem; 
+    border-radius: 2.5rem; 
+    box-shadow: var(--shadow);
+    border-bottom: none; 
+    color: #fff;
+}
+
+
+/* 1.4 Main Section */
+
+#intro, #services, #testimonials { 
+    padding: 8rem 2rem 9rem; 
+    margin: -6rem 0 -8rem;
+}
+
+#portfolio, #about  {
+    padding: 3rem 2rem 4rem; 
+    background-color: #fff;
+    border-radius: 100% 0% 100% 0% / 7% 10% 7% 10%;
+    margin-bottom: -5rem;
+    position: relative; 
+    z-index: 1;
+}
+
+
+/* 1.4.1 Intro  */
+
+.awards {
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr);
+    text-align: center;
+    grid-gap: .5rem;
+}
+
+.awards > div {
+    display: flex; 
+    flex-direction: column; 
+}
+
+.awards > div > * { 
+    margin: 0; 
+    padding: 0; 
+}
+
+.awards svg {
+    width: 30px; 
+    height: 30px; 
+    fill: var(--two);
+    margin: auto;
+    /* SVG is drawn slightly off center*/ 
+    padding-left: 3px; 
+}
+
+.awards p:nth-of-type(1) {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.awards p:nth-of-type(2) {
+    font-size: 0.7rem;
+}
+
+/* 1.4.2 Portfolio */
+
+#portfolio {
+    box-shadow: var(--shadow);
+}
+
+.image-grid {
+    display: grid; 
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem; 
+}
+
+.image-grid-item {
+    position: relative;
+    cursor: pointer;
+}
+
+.image-grid-item img {
+    width: 100%; 
+    box-shadow: var(--s2);
+    display: block;
+    pointer-events: none; 
+}
+
+.image-grid-item-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:rgba(255,255,255,0.7);
+    color: #000;
+    opacity: 0;
+    transition: opacity 0.25s; 
+    pointer-events: none; 
+}
+
+.image-grid-item-text > span {
+    width: 100%; 
+    position:absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.image-grid-item-text > * {
+    transform: translateY(20px);
+    transition: transform 0.25s;
+}
+
+.rings > i {
+    box-sizing: content-box;
+    width: 10px; 
+    height: 10px; 
+    display: inline-block;
+    border: 2px solid var(--two); 
+    border-radius: 50%; 
+}
+
+.rings i:first-of-type {
+    position: relative; 
+    left: 3px;
+}
+
+.rings i:last-of-type {
+    position: relative; 
+    right: 3px;
+}
+
+.one, .one img {
+    border-radius: 66% 34% 70% 30% / 30% 64% 36% 70%;
+}
+
+.one .image-grid-item-text {
+    border-radius: 66% 34% 70% 30% / 30% 64% 36% 70%;
+}
+
+.two, .two img {
+    border-radius: 53% 47% 42% 58% / 30% 48% 52% 70%; 
+} 
+
+.two .image-grid-item-text {
+    border-radius: 53% 47% 42% 58% / 30% 48% 52% 70%;
+}
+
+.three, .three img {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+} 
+
+.three .image-grid-item-text {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+/* Modal */
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    padding-top: 1rem; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto;  
+    background-color: rgba(0,0,0,0.9); 
+}
+
+.modal img {
+    border-radius: 0; 
+}
+
+.close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: var(--one);
+    font-size: 40px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.modal-image {
+    pointer-events: none;
+}
+
+/* 1.4.3 Services  */
+
+#services {
+    background-color: var(--one);
+    background-image: url('img/wedding-2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 70% 50%;
+}
+
+#services > h2 {
+    color: var(--ivory);
+}
+
+#services > div, 
+#services > p, 
+.services-package {
+    background-color: rgba(255, 255, 255, 0.7); 
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.services-package { 
+    margin: 1rem auto;
+}
+
+.services-package h3 {
+    padding: 0; 
+    margin: 0; 
+}
+
+.services-package span { 
+    font-family: var(--italic);
+    font-weight: 600;
+}
+
+/* 1.4.4 About */
+
+#about {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);;
+}
+
+#about h2 {
+    margin-bottom: 0;
+}
+
+.about-grid {
+    display: grid; 
+    grid-template-columns: 1fr 1fr;
+    justify-items: space-between;
+    align-items: center;
+}
+
+.about-grid p {
+    font-size: calc(1em + 2vw); 
+    padding-left: 0.5rem;
+    font-weight: 300;
+}
+
+.about-grid img { 
+    display: inline-block;
+    justify-self: start;  
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    width: 100%; 
+    border-radius: 69% 31% 41% 59% / 65% 72% 28% 35%;
+}
+
+/* 1.4.5 Testimonials */
+
+.testimonial-quote {
+    padding-left: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-quote p:nth-of-type(2) {
+    font-family: var(--italic);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.testimonial-quote p:nth-of-type(2)::before {
+    content: "- ";
+}
+
+/* 1.4.6 Contact */
+
+#contact {
+    padding: 5rem 2rem 4rem;
+    margin-top: -3rem;
+    border-radius: 100% 0% 100% 0% / 7% 10% 7% 10%;
+    box-shadow: var(--shadow);
+    background-image: url('img/wedding-3.jpg'); 
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 70% 50%;
+}
+
+#contact h2 {
+    color: #fff;
+}
+
+form {
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: var(--s2);
+    border-radius: 1rem;
+    padding: 1rem; 
+    box-sizing: border-box;
+}
+
+input, label, textarea {
+    display: block; 
+    width: 100%; 
+    margin: 0.5rem auto;
+    box-sizing: border-box; 
+}
+
+input[type="submit"] {
+    background-color: var(--one); 
+    border: none; 
+    padding: 0.5rem 2.5rem; 
+    border-radius: 2.5rem;
+    margin-top: 1.5rem;
+    width: auto;
+    box-shadow: var(--s2);
+    color: #fff;
+}
+
+/* 1.5 Footer */
+
+footer {
+    text-align: center;
+    padding: 0.5rem;
+    color: #fff; 
+    font-size: 0.9rem;
+    line-height: 1.1rem;
+    flex-shrink: 0;
+    background-color: #000;
+    padding-top: 9rem;
+    margin-top: -7rem;
+    z-index: -1; 
+    position: relative;
+}
+
+footer p {
+    padding: 0;
+    margin: 0; 
+}
+
+footer a {
+    color: var(--ivory);
+    padding: 1px;
+    text-decoration: none; 
+    border-bottom: 1px solid var(--ivory);
+    margin: 0 5px;
+    font-size: 0.9rem;
+    display: inline-block; 
+}
+
+.footer-social {
+    margin-top: 10px; 
+}
+
+.footer-social a {
+    border-bottom: none;
+    transition: all 0.2s ease-out;
+}
+
+.footer-social svg {
+    width: 25px; 
+    height: 25px;
+    fill: #fff;
+    display: inline-block;
+    margin-bottom: 5px;
+    transition: all 0.2s ease-out;
+}
+
+/* 2. Intersection Observers */
+
+/* border-left appearing */
+.pink-line {
+    position: relative; 
+}
+
+.pink-line::before {
+    content: ""; 
+    position: absolute; 
+    left: -2px; 
+    height: 100%; 
+    width: 2px; 
+    top: 0; 
+    background-color: var(--one);
+    transform: scaleY(0); 
+    transition: transform 0.8s ease-in-out; 
+    transform-origin: top; 
+}
+
+.pink-line.line::before {
+    transform: scaleY(1);
+}
+
+
+/* element appearing in from the bottom */
+.effect {
+    position: relative; 
+    bottom: -40px; 
+    opacity: 0; 
+    transition: all 0.5s ease-out;
+}
+
+.effect.appear {
+    bottom: 0; 
+    opacity: 1;
+}
+
+.awards.effect {
+    position: relative; 
+    opacity: 0; 
+    bottom: -30px;
+    transition: all 0.5s ease-out;
+}
+
+.awards > div:nth-of-type(2) {
+    transition-delay: 0.2s;
+}
+
+.awards > div:nth-of-type(3) {
+    transition-delay: 0.4s;
+}
+
+#awards.effect.appear {
+    bottom: 0; 
+    opacity: 1;
+}
+
+/* 3. Focus Rules */
+
+/* No focus rules unless tabbing */
+.no-focus-outline a:focus,
+.no-focus-outline button:focus, 
+.no-focus-outline .burger:focus {
+  outline: none;
+  box-shadow: none; 
+}
+
+.no-focus-outline .welcome-button:focus, 
+.no-focus-outline input[type="submit"]:focus {
+    outline: none; 
+    background-color: var(--two);
+}
+
+/* Focus styling */
+a:focus {
+    outline: 2px solid var(--contrast); 
+    outline-offset: 2px;
+    border-bottom: none; 
+}
+
+.burger:focus {
+    outline: 2px solid var(--contrast); 
+}
+
+input:focus, 
+textarea:focus {
+    outline: 2px solid var(--contrast); 
+    outline-offset: -1px;
+}
+
+.welcome-button:focus, input[type="submit"]:focus {
+    outline: none; 
+    background-color: var(--contrast); 
+}
+
+
+/* 4. Hover rules */
+@media not all and (hover: none) { 
+    a:hover {
+        border-bottom: 2px solid var(--one);
+        color: var(--one);
+    }
+
+    #nav li a:hover {
+        color: var(--one);
+    }
+
+    .welcome-button:hover {
+        border-bottom: none; 
+        letter-spacing: 1px; 
+        color: #fff;
+        background-color: var(--two);        
+    }
+
+    input[type="submit"]:hover {
+        background-color: var(--two);
+        letter-spacing: 1px;
+    }
+
+    .image-grid-item:hover .image-grid-item-text {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    footer a:hover {
+        border-bottom: 1px solid var(--one);
+    }
+
+    .footer-social a:hover {
+        border-bottom: none; 
+    }
+
+    .footer-social svg:hover {
+        fill: var(--one); 
+    }
+}
+
+/* 5. Tablet (600px) */
+@media (min-width: 600px) {
+    .welcome-copy h1 {
+        margin: 0 5rem 0.5rem;
+        font-size: calc(1rem + 3.5vw);
+    }
+
+    .welcome-copy p {
+        font-size: calc(1rem + 1vw);
+    }
+
+    /* increasing distance of content to page edge */
+    section {
+        padding-left: 4rem !important;
+        padding-right: 4rem !important;
+    }
+
+    /* Portfolio */
+    .image-grid {
+        margin-top: 1.5rem;
+    }
+
+    .modal img {
+        max-width: 600px; 
+        height: 600px; 
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%);
+    }
+
+    .close {
+        z-index: 100;
+        right: 25px;
+        top: 40px;
+    }
+
+    /* About */
+
+    .about-grid p {
+        font-size: calc(1em + 3vw); 
+    }
+    
+    .about-grid img { 
+        width: 90%; 
+        justify-self: start;
+    }
+}
+
+/* 6. Desktop (850px) */
+@media (min-width: 850px) {
+    main {
+        font-size: 1.3em;
+    }
+    /* 6.1 Header, Nav and Banner */
+    header {
+        width: 100%;
+        height: 40px;
+        display: flex;
+        flex-direction: row; 
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.5);
+        position: fixed;
+        z-index: 200;
+    }
+
+    header.show {
+        background-color: #fff;
+    }
+
+    header > * {
+        position: static;
+        opacity: 1; 
+    }
+
+    header span {
+        display: inline;
+        margin-left: 0.5rem;
+        font-family: var(--italic);
+        font-size: 1.3rem;
+    }
+
+    .burger {
+        display: none;
+    }
+
+    .navigation {
+        text-align: center;
+    }
+
+    #nav {
+        position: static; 
+        transform: scale(1);
+        opacity: 1;
+        width: 100%;
+        height: 40px;
+        background-color: transparent;
+    }
+
+    #nav ul {
+        width: 100%;
+        height: inherit;
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-right: 0.5rem;
+        display: flex; 
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    #nav li {
+        position: static; 
+        opacity: 1; 
+    }
+
+    #nav li a {
+        font-family: var(--font);
+        font-size: 1rem;
+        color: #000;
+        padding: 0;
+        padding-bottom: 0;
+        width: 70px;
+        position: relative;
+    }
+
+    .welcome-copy h1 {
+        margin: 1rem 4rem 0.5rem;
+    }
+
+    /* 6.2 Main */
+    #intro {
+        display: grid; 
+        grid-template-columns: auto 200px;
+        grid-gap: 1rem;
+        padding-bottom: 10.5rem;
+        padding-top: 9rem;
+    }
+
+    .awards {
+        grid-template-columns: 1fr;
+        align-items: end;
+    }
+
+    .awards svg {
+        margin: 0 auto; 
+    }
+
+    /* increasing distance of content to page edge */
+    section {
+        padding-left: 6rem !important;
+        padding-right: 6rem !important;
+    }
+
+    #portfolio, #about, #contact {
+        border-radius: 100% 0% 100% 0% / 13% 87% 13% 87%; 
+    }
+
+    #portfolio, #about {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+    }
+
+    /* Portfolio: changing grid */
+    .image-grid { 
+        grid-template-columns: repeat(3, 1fr); 
+        grid-gap: 2rem;
+    }
+
+    /* Services */
+    #services {
+        padding: 10rem 6rem 11rem; 
+        margin: -8rem 0 -10rem;
+    }
+
+    #services h2 {
+        color: var(--ivory);
+        margin-bottom: 0;
+    }
+
+    #services > div, 
+    #services > p {
+        width: 50%; 
+        margin: 0.8rem 0;
+    }
+
+    /* About */
+    .about-grid {
+        display: inline;
+        float: left;
+        margin-right: 2rem;
+    }
+
+    .about-grid p {
+        display: none; 
+        font-size: calc(1em + 2vw); 
+    }
+    
+    .about-grid img { 
+        width: 300px; 
+    }
+
+    /* Contact */
+    #contact {
+        background-image: url('img/wedding-4.jpg'); 
+    }
+
+    form {
+        width: 50%; 
+    }
+
+}
+
+/* 7. Desktop (1024px) */
+@media (min-width: 1024px) {
+    /* increasing distance of content to page edge */
+    section {
+        padding-left: 10rem !important;
+        padding-right: 10rem !important;
+    }
+
+}
